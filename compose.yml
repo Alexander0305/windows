@@ -6,6 +6,19 @@ services:
       VERSION: "10e"
       USERNAME: "admin"
       PASSWORD: "1234567890"
+      environment:
+  DHCP: "Y"
+devices:
+  - /dev/vhost-net
+device_cgroup_rules:
+  - 'c *:* rwm'
+  networks:
+      vlan:
+        ipv4_address: 192.168.0.100
+
+networks:
+  vlan:
+    external: true
     volumes:
       - /var/win:/storage
     devices:
@@ -20,10 +33,3 @@ services:
       - 3389:3389/udp
     restart: always
     stop_grace_period: 2m
-networks:
-      vlan:
-        ipv4_address: 192.168.0.100
-
-networks:
-  vlan:
-    external: true
