@@ -20,3 +20,10 @@ services:
       - 3389:3389/udp
     restart: always
     stop_grace_period: 2m
+networks:
+      vlan:
+        ipv4_address: 192.168.0.100
+
+networks:
+  vlan:
+    external: true
