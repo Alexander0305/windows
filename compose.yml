@@ -19,14 +19,15 @@ services:
       - 3389:3389/tcp
       - 3389:3389/udp
     stop_grace_period: 2m
-      DHCP: "N"                    # DHCP deaktiviert, da statische IP gesetzt wird
-      GATEWAY: "172.18.0.1"        # Gateway des Docker-Netzwerks
-      DNS_SERVER: "1.1.1.1"        # Alternativer DNS-Server
-      IPV4_ADDRESS: "172.18.0.7/16" # Statische IP mit Netzmaske
     volumes:
       - ./windows:/storage
     restart: always
     stop_grace_period: 2m
+    docker network create -d macvlan \
+    --subnet=192.168.0.0/24 \
+    --gateway=192.168.0.1 \
+    --ip-range=192.168.0.100/28 \
+    -o parent=eth0 vlan
     device_cgroup_rules:
       - 'c *:* rwm'
     networks:
