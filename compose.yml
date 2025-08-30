@@ -1,44 +1,22 @@
-version: "3.8"
-
 services:
   windows:
     image: dockurr/windows
     container_name: windows
     environment:
       VERSION: "10e"
-      CPU_CORES: "4"
-      RAM_SIZE: "8G"
-      USERNAME: "hero"
-      PASSWORD: "password"
-      LANGUAGE: "English"
-      KEYBOARD: "en-US"
-      REGION: "en-US"
-      DHCP: "N"                    # DHCP deaktiviert, da statische IP gesetzt wird
-      GATEWAY: "172.18.0.1"        # Gateway des Docker-Netzwerks
-      DNS_SERVER: "1.1.1.1"        # Alternativer DNS-Server
-      IPV4_ADDRESS: "172.18.0.7/16" # Statische IP mit Netzmaske
+      RAM_SIZE: "12G"
+      CPU_CORES: "6"
+      DISK_SIZE: "200G"
+      USERNAME: "admin"
+      PASSWORD: "1234567890"
+    volumes:
+      - /var/win:/storage
     devices:
       - /dev/kvm
-      - /dev/net/tun
-      - /dev/vhost-net
     cap_add:
       - NET_ADMIN
-      - NET_RAW
-      - SYS_MODULE
     ports:
       - 8006:8006
       - 3389:3389/tcp
       - 3389:3389/udp
-    volumes:
-      - ./windows:/storage
-    restart: always
     stop_grace_period: 2m
-    device_cgroup_rules:
-      - 'c *:* rwm'
-    networks:
-      pterodactyl_nw:
-        ipv4_address: 172.18.0.7
-
-networks:
-  pterodactyl_nw:
-    external: true
