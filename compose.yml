@@ -6,7 +6,6 @@ services:
       VERSION: "10e"
       USERNAME: "admin"
       PASSWORD: "1234567890"
-      environment:
   DHCP: "Y"
 devices:
   - /dev/vhost-net
