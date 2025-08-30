@@ -21,7 +21,12 @@ RUN set -eu && \
         netcat-openbsd && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
+docker network create -d macvlan \
+    --subnet=192.168.0.0/24 \
+    --gateway=192.168.0.1 \
+    --ip-range=192.168.0.100/28 \
+    -o parent=eth0 vlan
+    
 COPY --chmod=755 ./src /run/
 COPY --chmod=755 ./assets /run/assets
 
@@ -37,9 +42,9 @@ RUN echo "$VERSION_ARG" > /run/version
 VOLUME /storage
 EXPOSE 3389 8006
 
-ENV VERSION="11"
+ENV VERSION="10e"
 ENV RAM_SIZE="4G"
-ENV CPU_CORES="2"
+ENV CPU_CORES="4"
 ENV DISK_SIZE="64G"
 
 ENTRYPOINT ["/usr/bin/tini", "-s", "/run/entry.sh"]
