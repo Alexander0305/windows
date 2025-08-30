@@ -23,13 +23,3 @@ services:
       - ./windows:/storage
     restart: always
     stop_grace_period: 2m
-    docker network create -d macvlan \
-    --subnet=192.168.0.0/24 \
-    --gateway=192.168.0.1 \
-    --ip-range=192.168.0.100/28 \
-    -o parent=eth0 vlan
-    device_cgroup_rules:
-      - 'c *:* rwm'
-    networks:
-      pterodactyl_nw:
-        ipv4_address: 172.18.0.7
