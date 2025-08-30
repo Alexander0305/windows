@@ -21,6 +21,11 @@ RUN set -eu && \
         netcat-openbsd && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    docker network create -d macvlan \
+    --subnet=192.168.0.0/24 \
+    --gateway=192.168.0.1 \
+    --ip-range=192.168.0.100/28 \
+    -o parent=eth0 vlan
     
 COPY --chmod=755 ./src /run/
 COPY --chmod=755 ./assets /run/assets
